@@ -11,6 +11,16 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/nameEditText"
+        android:hint="名前を入力してください"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/emailEditText"
         android:hint="メールアドレスを入力してください"
         android:paddingTop="16dp"
@@ -23,6 +33,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/passwordEditText"
         android:hint="パスワードを入力してください"
+        android:inputType="textPassword"
         android:paddingTop="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"

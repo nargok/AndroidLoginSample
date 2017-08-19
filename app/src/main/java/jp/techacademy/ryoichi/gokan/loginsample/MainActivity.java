@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.HashMap;
 
@@ -16,6 +17,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+
+    private String msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 Log.d("LoginSample", "LoginButton onClick");
 
+                EditText nameEditText = (EditText)findViewById(R.id.nameEditText);
                 EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
                 EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
+
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 // パラメータの作成
@@ -54,14 +59,23 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("LoginSample", "Login succeed!");
                                 // response.body()にUserクラスに変換されたオブジェクトが入っている
                                 User user = response.body();
+                                String name = user.getName();
+                                msg = "こんにちは、" + name + "さん";
                             } else {
                                 Log.d("LoginSample", "Login failed!");
+                                msg = "ログインに失敗しました";
                             }
+                            Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override
                         public void onFailure(Call<User> call, Throwable t) {
+                            Log.d("LoginSample", "接続エラー");
+                            msg = "接続エラー";
+                            Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                         }
+
                     });
                 }
             }
@@ -75,14 +89,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("LoginSample", "AccountButton onClick");
 
+                EditText nameEditText = (EditText)findViewById(R.id.nameEditText);
                 EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
                 EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
+
+                String name = nameEditText.getText().toString();
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
-                if ((email != null) && (password != null)) {
+                if ((name.length() != 0) && (email.length() != 0) && (password.length() != 0)) {
                     HashMap<String, User> postUser = new HashMap<>();
                     User user = new User();
+                    user.setName(name);
                     user.setEmail(email);
                     user.setPassword(password);
                     postUser.put("user", user);
@@ -95,15 +113,19 @@ public class MainActivity extends AppCompatActivity {
                             if(response.isSuccessful()) {
                                 Log.d("LoginSample", "SignUp succeed!");
                                 // response.body()にUserクラスに変換されたオブジェクトが入っている
+                                msg = "アカウント作成成功";
                                 User user = response.body();
                             } else {
                                 Log.d("LoginSample", "SignUp failed!");
+                                msg = "アカウント作成失敗";
                             }
+                            Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onFailure(Call<User> call, Throwable t) {
-
+                            msg = "接続エラー";
+                            Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                         }
                     });
 
