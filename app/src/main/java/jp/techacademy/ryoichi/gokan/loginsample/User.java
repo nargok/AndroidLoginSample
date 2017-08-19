@@ -10,16 +10,32 @@ public class User {
     // たぶんこのメソッドを動かすと、{ "user"; { "name": "xxxxx", ... } }というファイルになる
     public User(){};
 
-    public User(String email, String password) {
+    public User(String name, String email, String password, String access_token) {
+        this.name = name;
         this.email = email;
         this.password = password;
+        this.access_token = access_token;
     }
+
+    @Expose
+    private String name;
 
     @Expose
     private String email;
 
     @Expose
     private String password;
+
+    @Expose
+    private String access_token;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getEmail(){
         return email;
@@ -35,6 +51,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken(){
+        return access_token;
+    }
+
+    public void setToken(String access_token) {
+        this.access_token = access_token;
     }
 
 }
