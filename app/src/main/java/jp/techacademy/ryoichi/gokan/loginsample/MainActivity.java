@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("LoginSample", password);
 
 
-                if ((email != null) && (password != null)) {
+                if ((email.length() != 0) && (password.length() != 0)) {
                     HashMap<String, String> postUser = new HashMap<>();
                     postUser.put("email", email);
                     postUser.put("password", password);
