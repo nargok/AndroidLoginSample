@@ -54,6 +54,12 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/listButton"
+        android:text="ユーザ一覧"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/logoutButton"
         android:text="ログアウト"/>
 
