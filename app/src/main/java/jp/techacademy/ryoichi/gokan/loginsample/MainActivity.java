@@ -1,5 +1,7 @@
 package jp.techacademy.ryoichi.gokan.loginsample;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    SharedPreferences mPreference;
     private String msg;
 
     @Override
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mPreference = PreferenceManager.getDefaultSharedPreferences(this);
 
         // ログインボタンにリスナを登録
         Button loginButton = (Button)findViewById(R.id.loginButton);
@@ -61,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
                                 User user = response.body();
                                 String name = user.getName();
                                 msg = "こんにちは、" + name + "さん";
+
+                                // トークンを登録する
+                                SharedPreferences.Editor editor = mPreference.edit();
+                                editor.putString("TOKEN", user.getToken().toString());
+                                editor.commit();
+
+
                             } else {
                                 Log.d("LoginSample", "Login failed!");
                                 msg = "ログインに失敗しました";
@@ -131,6 +142,19 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
+            }
+        });
+
+        // ログアウトボタン
+        Button logoutButton = (Button)findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.d("LoginSample", "Logout Button was tapped");
+
+                // Token情報を削除する
+                mPreference.edit().remove("TOKEN");
+                mPreference.edit().commit();
             }
         });
 

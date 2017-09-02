@@ -7,7 +7,6 @@ import com.google.gson.annotations.Expose;
  */
 
 public class User {
-    // たぶんこのメソッドを動かすと、{ "user"; { "name": "xxxxx", ... } }というファイルになる
     public User(){};
 
     public User(String name, String email, String password, String access_token) {
