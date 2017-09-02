@@ -1,5 +1,6 @@
 package jp.techacademy.ryoichi.gokan.loginsample;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -145,6 +146,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // ユーザ一覧ボタン
+        Button userListButton = (Button)findViewById(R.id.listButton);
+        userListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("LoginSample", "UserList Button was tapped");
+
+                // トークン情報を取得する
+                String token = mPreference.getString("TOKEN", "");
+                Log.d("LoginSample", token);
+
+                if (token.length() != 0) {
+                    // tokenがあれば画面遷移する
+                    Intent intent = new Intent(getApplicationContext(), UserListActivity.class);
+                    startActivity(intent);
+                } else {
+                    // ログインしていないなら画面遷移できない
+                    Log.d("LoginSample", "You need to login");
+                    Toast.makeText(MainActivity.this, "ログインしてください", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
+
         // ログアウトボタン
         Button logoutButton = (Button)findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new View.OnClickListener(){
@@ -153,8 +179,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("LoginSample", "Logout Button was tapped");
 
                 // Token情報を削除する
-                mPreference.edit().remove("TOKEN");
-                mPreference.edit().commit();
+                SharedPreferences.Editor editor = mPreference.edit();
+                editor.remove("TOKEN");
+                editor.commit();
+
+                Toast.makeText(MainActivity.this, "ログアウトしました", Toast.LENGTH_SHORT).show();
+
             }
         });
 
